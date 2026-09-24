@@ -1,0 +1,34 @@
+{{define "login"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in &mdash; ShopKart</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sk-body">
+{{template "nav" .}}
+
+<section class="sk-page">
+  <div class="sk-page-inner sk-narrow sk-center">
+    <h1>Welcome back</h1>
+    <p class="sk-muted">Log in to track your orders ahead of tomorrow's launch.</p>
+
+    {{if .Error}}<p class="sk-form-error">{{.Error}}</p>{{end}}
+
+    <form class="sk-form" action="/login" method="post">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="off" placeholder="e.g. demo_user">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="off" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+      <button class="sk-btn-primary" type="submit">Log in</button>
+    </form>
+    <p class="sk-muted sk-small">Try the demo account: <code>demo_user</code> / <code>demo1234</code></p>
+  </div>
+</section>
+
+{{template "foot" .}}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,33 @@
+{{define "account"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account &mdash; ShopKart</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sk-body">
+{{template "nav" .}}
+
+<section class="sk-page">
+  <div class="sk-page-inner sk-narrow">
+    <h1>Welcome, {{.Session.DisplayName}}</h1>
+    <p class="sk-muted">Signed in as <code>{{.Session.LoggedInAs}}</code> &middot; role: <code>{{.Session.Role}}</code></p>
+
+    {{if .Flag}}
+    <div class="sk-flagcard">
+      <p class="sk-flagcard-kicker">Evidence found &mdash; {{.Flag.CodeName}}</p>
+      <p>You reached an account you weren't supposed to be able to reach this easily. Take this back to Mission Control.</p>
+      <code class="sk-flag-value">{{.Flag.Flag}}</code>
+    </div>
+    {{else}}
+    <p>Nothing unusual here &mdash; just a regular customer account. Order history is empty, because ShopKart hasn't opened yet.</p>
+    {{end}}
+  </div>
+</section>
+
+{{template "foot" .}}
+</body>
+</html>
+{{end}}

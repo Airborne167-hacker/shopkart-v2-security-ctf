@@ -1,0 +1,36 @@
+{{define "about"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About ShopKart</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sk-body">
+{{template "nav" .}}
+
+<div style="display:none" id="launch-eve-checklist" aria-hidden="true">
+  Launch-eve checklist (internal, remove before we go live):
+  [x] Payment gateway sandbox switched to production keys
+  [x] CDN cache purged
+  [ ] rotate the default staff account before launch - still active:
+      username: staff_alerts
+      password: ShopKart@123
+  [ ] final copy-edit on the About page
+  - A.
+</div>
+
+<section class="sk-page">
+  <div class="sk-page-inner sk-narrow">
+    <h1>About ShopKart</h1>
+    <p>ShopKart started as a two-person side project and, one very long year later, is finally launching properly tomorrow morning. We picked a small catalogue of things we'd actually want on our own shelves &mdash; nothing more, nothing less.</p>
+    <p>We're a small team, which means the same three people wrote the code, tested the checkout, and are now refreshing this page at 1 AM double-checking everything is ready. If something looks unfinished, it's because it probably still is &mdash; we'd rather launch honestly than launch perfectly.</p>
+    <p>Questions before we open? Reach the team at <em>hello@shopkart.example</em>.</p>
+  </div>
+</section>
+
+{{template "foot" .}}
+</body>
+</html>
+{{end}}

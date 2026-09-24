@@ -1,0 +1,51 @@
+{{define "product"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{.Product.Name}} &mdash; ShopKart</title>
+<link rel="stylesheet" href="/static/style.css">
+<script>window.SHOPKART_SECRET = {{.Secret}};</script>
+</head>
+<body class="sk-body">
+{{template "nav" .}}
+
+<section class="sk-page">
+  <div class="sk-page-inner">
+    <div class="sk-product-hero">
+      <div class="sk-product-hero-emoji">{{.Product.Emoji}}</div>
+      <div>
+        <h1>{{.Product.Name}}</h1>
+        <p class="sk-product-hero-tagline">{{.Product.Tagline}}</p>
+        <p class="sk-product-hero-price">&#8377;{{.Product.Price}}</p>
+        <p>{{.Product.Description}}</p>
+      </div>
+    </div>
+
+    <div class="sk-reviews">
+      <h2 class="sk-section-title">Reviews</h2>
+      {{range .Reviews}}
+      <div class="sk-review">
+        <p class="sk-review-author">{{.Author}} <span class="sk-muted sk-small">&middot; {{.CreatedAt}}</span></p>
+        <div class="sk-review-content">{{.Content}}</div>
+      </div>
+      {{else}}
+      <p class="sk-muted">No reviews yet &mdash; be the first.</p>
+      {{end}}
+
+      <form class="sk-form sk-review-form" action="/product/{{.Product.ID}}" method="post">
+        <label for="author">Your name</label>
+        <input id="author" name="author" type="text" placeholder="e.g. Priya S.">
+        <label for="content">Your review</label>
+        <textarea id="content" name="content" rows="3" placeholder="What did you think?"></textarea>
+        <button class="sk-btn-primary" type="submit">Post review</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{{template "foot" .}}
+</body>
+</html>
+{{end}}

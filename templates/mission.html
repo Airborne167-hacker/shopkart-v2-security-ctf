@@ -1,0 +1,86 @@
+{{define "mission"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Control &mdash; win CyberRange</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="mc-body">
+
+<header class="mc-topbar">
+  <a href="/" class="mc-back">&larr; Back to ShopKart</a>
+  <span class="mc-brand">win CyberRange</span>
+</header>
+
+<section class="mc-briefing">
+  <div class="mc-briefing-inner">
+    <p class="mc-case-number">CASE FILE &middot; SK-2026-0914</p>
+    <h1 class="mc-title">Operation: Front Door</h1>
+    <p class="mc-typed" id="mc-typed-text" data-full-text="ShopKart opens to the public in a few hours. An anonymous tip just came in: someone has already been quietly testing this site for weaknesses. Before they find something first, we need you to find it &mdash; and prove it, one piece of evidence at a time.">&nbsp;</p>
+
+    <div class="mc-progress-wrap">
+      <div class="mc-progress-label">
+        <span id="mc-progress-count">{{.Captured}} / {{.Total}}</span> pieces of evidence logged
+      </div>
+      <div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-progress-fill" style="width: {{.Captured}}0%"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="mc-cases">
+  <div class="mc-cases-inner">
+    {{range .Challenges}}
+    <article class="mc-card" data-challenge-id="{{.ID}}" id="card-{{.ID}}">
+      <button class="mc-card-head" type="button" data-toggle="{{.ID}}">
+        <span class="mc-card-num">{{.Number}}</span>
+        <span class="mc-card-headtext">
+          <span class="mc-card-codename">{{.CodeName}}</span>
+          <span class="mc-card-category">{{.Category}}</span>
+        </span>
+        <span class="mc-card-status" id="status-{{.ID}}">Open</span>
+      </button>
+
+      <div class="mc-card-body" id="body-{{.ID}}">
+        <p class="mc-card-briefing">{{.Briefing}}</p>
+
+        {{if .TargetURL}}
+        <a class="mc-target-link" href="{{.TargetURL}}" target="_blank" rel="noopener">{{.TargetLabel}} &nearr;</a>
+        {{else}}
+        <p class="mc-target-note">{{.TargetLabel}}</p>
+        {{end}}
+
+        <div class="mc-hints" id="hints-{{.ID}}"></div>
+        <button class="mc-hint-btn" type="button" data-hint-btn="{{.ID}}">Ask the Security Consultant for a hint</button>
+
+        <div class="mc-submit-row">
+          <input class="mc-flag-input" type="text" placeholder="FLAG{...}" id="flaginput-{{.ID}}" autocomplete="off" spellcheck="false">
+          <button class="mc-submit-btn" type="button" data-submit-btn="{{.ID}}">Submit</button>
+        </div>
+        <p class="mc-submit-feedback" id="feedback-{{.ID}}"></p>
+        <p class="mc-reveal" id="reveal-{{.ID}}"></p>
+      </div>
+    </article>
+    {{end}}
+  </div>
+</section>
+
+<div class="mc-celebrate-overlay" id="mc-celebrate-overlay">
+  <div class="mc-celebrate-card">
+    <p class="mc-case-number">CASE CLOSED</p>
+    <h2>Every piece of evidence, logged.</h2>
+    <p>ShopKart launches in a few hours &mdash; and thanks to you, it launches a lot safer than it would have. You just walked through five of the most common ways real websites get broken into, start to finish.</p>
+    <button class="mc-btn-primary" id="mc-celebrate-close" type="button">Back to the case file</button>
+  </div>
+</div>
+
+<canvas id="mc-confetti-canvas"></canvas>
+
+<script>
+  window.MC_CAPTURED = {{.CapturedMap}};
+</script>
+<script src="/static/app.js"></script>
+</body>
+</html>
+{{end}}

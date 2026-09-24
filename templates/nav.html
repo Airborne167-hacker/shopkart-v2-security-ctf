@@ -1,0 +1,31 @@
+{{define "nav"}}
+<header class="sk-nav">
+  <div class="sk-nav-inner">
+    <a class="sk-logo" href="/">
+      <span class="sk-logo-mark">SK</span>
+      <span class="sk-logo-word">ShopKart</span>
+    </a>
+    <span class="sk-launch-pill">Opens tomorrow &middot; 9:00 AM</span>
+    <nav class="sk-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      {{if .Session.LoggedInAs}}
+        <a href="/account">{{.Session.DisplayName}}</a>
+        <form action="/logout" method="post" class="sk-inline-form"><button class="sk-link-btn" type="submit">Log out</button></form>
+      {{else}}
+        <a href="/login">Log in</a>
+      {{end}}
+    </nav>
+    <a class="sk-mission-pill" href="/mission">&#128269; Mission Control</a>
+  </div>
+</header>
+{{end}}
+
+{{define "foot"}}
+<footer class="sk-foot">
+  <div class="sk-foot-inner">
+    <p>ShopKart is a fictional store built for win CyberRange training. Nothing here is a real product, account, or transaction.</p>
+    <a href="/mission" class="sk-foot-cta">Think this site looks a little too easy to break into? &rarr; Mission Control</a>
+  </div>
+</footer>
+{{end}}

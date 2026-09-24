@@ -1,0 +1,40 @@
+{{define "home"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopKart &mdash; opening tomorrow</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sk-body">
+{{template "nav" .}}
+
+<section class="sk-hero">
+  <div class="sk-hero-inner">
+    <p class="sk-hero-kicker">One more sleep until launch</p>
+    <h1 class="sk-hero-title">Everyday things,<br>chosen a little more carefully.</h1>
+    <p class="sk-hero-sub">ShopKart opens to the public tomorrow at 9:00 AM. The catalogue, the checkout, the login &mdash; all of it goes live at once. Tonight it's just us, the team, and whatever we haven't found yet.</p>
+  </div>
+</section>
+
+<section class="sk-catalogue">
+  <div class="sk-catalogue-inner">
+    <h2 class="sk-section-title">Tonight's preview catalogue</h2>
+    <div class="sk-product-grid">
+      {{range .Products}}
+      <a class="sk-product-card" href="/product/{{.ID}}">
+        <div class="sk-product-emoji">{{.Emoji}}</div>
+        <h3>{{.Name}}</h3>
+        <p class="sk-product-tagline">{{.Tagline}}</p>
+        <p class="sk-product-price">&#8377;{{.Price}}</p>
+      </a>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+{{template "foot" .}}
+</body>
+</html>
+{{end}}
