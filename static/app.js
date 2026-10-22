@@ -31,6 +31,17 @@
   if (!cards.length) return;
 
   const captured = window.MC_CAPTURED || {};
+  try {
+    if (window.parent && window.parent !== window) {
+      const solvedCount = Object.keys(captured).filter(function(k) { return captured[k]; }).length;
+      window.parent.postMessage({
+        type: 'CTF_SCORE_UPDATE',
+        captured: solvedCount,
+        total: cards.length,
+        scorePercentage: Math.round((solvedCount / cards.length) * 100)
+      }, '*');
+    }
+  } catch (e) {}
 
   cards.forEach((card) => {
     const id = card.getAttribute('data-challenge-id');
@@ -103,6 +114,18 @@
           markSolved(card, status);
           updateProgress(data.captured, data.total);
           burstConfetti();
+          try {
+            if (window.parent && window.parent !== window) {
+              window.parent.postMessage({
+                type: 'CTF_SCORE_UPDATE',
+                challengeId: id,
+                captured: data.captured,
+                total: data.total,
+                scorePercentage: Math.round((data.captured / data.total) * 100),
+                allDone: data.all_done
+              }, '*');
+            }
+          } catch (e) {}
           if (data.all_done) {
             setTimeout(showCelebration, 700);
           }

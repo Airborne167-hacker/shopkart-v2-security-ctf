@@ -362,6 +362,13 @@ func submitFlagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func progressHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	sess := getOrCreateSession(w, r)
 	sessionsMu.Lock()
 	defer sessionsMu.Unlock()
@@ -373,5 +380,26 @@ func progressHandler(w http.ResponseWriter, r *http.Request) {
 		"logged_in_as": sess.LoggedInAs,
 		"role":         sess.Role,
 		"server_time":  time.Now().Format(time.RFC3339),
+	})
+}
+
+func resetProgressHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	sess := getOrCreateSession(w, r)
+	sessionsMu.Lock()
+	sess.Captured = map[string]bool{}
+	sess.HintsShown = map[string]int{}
+	sessionsMu.Unlock()
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(map[string]any{
+		"status":   "ok",
+		"message":  "Progress reset to zero",
+		"captured": sess.Captured,
 	})
 }

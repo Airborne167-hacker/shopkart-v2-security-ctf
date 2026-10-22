@@ -28,4 +28,26 @@
     <a href="/mission" class="sk-foot-cta">Think this site looks a little too easy to break into? &rarr; Mission Control</a>
   </div>
 </footer>
+<script>
+(function() {
+  function notifyParent() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+          type: 'CTF_NAVIGATE',
+          path: window.location.pathname + window.location.search + window.location.hash,
+          fullUrl: window.location.href,
+          title: document.title
+        }, '*');
+      }
+    } catch (e) {}
+  }
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    notifyParent();
+  } else {
+    window.addEventListener('DOMContentLoaded', notifyParent);
+  }
+  window.addEventListener('popstate', notifyParent);
+})();
+</script>
 {{end}}

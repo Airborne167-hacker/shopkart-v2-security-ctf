@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 )
@@ -37,15 +38,20 @@ func newSessionID() string {
 // the player's state, creating a fresh one on first visit.
 func getOrCreateSession(w http.ResponseWriter, r *http.Request) *PlayerState {
 	var id string
-	if c, err := r.Cookie(sessionCookieName); err == nil && c.Value != "" {
+	if uid := r.URL.Query().Get("uid"); uid != "" {
+		id = "player_" + uid
+	} else if c, err := r.Cookie(sessionCookieName); err == nil && c.Value != "" {
 		id = c.Value
 	} else {
 		id = newSessionID()
+	}
+
+	if w != nil {
 		http.SetCookie(w, &http.Cookie{
 			Name:     sessionCookieName,
 			Value:    id,
 			Path:     "/",
-			HttpOnly: true,
+			HttpOnly: false,
 			SameSite: http.SameSiteLaxMode,
 			Expires:  time.Now().Add(7 * 24 * time.Hour),
 		})
@@ -61,6 +67,22 @@ func getOrCreateSession(w http.ResponseWriter, r *http.Request) *PlayerState {
 		}
 		sessions[id] = st
 	}
+
+	if r.URL.Query().Get("reset") == "1" {
+		st.Captured = map[string]bool{}
+		st.HintsShown = map[string]int{}
+	}
+
+	// Restore solved flags if passed in query
+	if flagsParam := r.URL.Query().Get("flags"); flagsParam != "" {
+		for _, f := range strings.Split(flagsParam, ",") {
+			f = strings.TrimSpace(f)
+			if f != "" {
+				st.Captured[f] = true
+			}
+		}
+	}
+
 	return st
 }
 
